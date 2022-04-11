@@ -60,9 +60,9 @@ app.post('/token', cors(), async (req, res) => {
                         const img = global.data.img;
                         const txt = global.data.text;
                         uploadImage(access_token, img, uploadUrl).then(r => {
-                            console.log(r)
+                            console.log(r);
                             postShare(access_token, ownerId, txt, asset).then(res => {
-                            console.log('2', res); // status 201 signal successful posting
+                                postResp(res.status)
                             })
                             .catch(e => console.log(e))
                         })
@@ -77,6 +77,11 @@ app.post('/token', cors(), async (req, res) => {
             }
         });
     
+})
+const postResp = (response) => app.get('/token', cors(), async (req, res) => {
+    let wasPosted;
+    response === 201 ? wasPosted = true : wasPosted = false;
+    res.send(wasPosted);
 })
 
 
