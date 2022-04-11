@@ -1,26 +1,29 @@
 const express = require('express');
-const app = express();
 const cors = require('cors');
+const serverless = require('serverless-http');
 const { getLinkedinId, postShare, registerImage, uploadImage } = require('./linkedinConnection');
 const { _request } = require('./globaldata');
 const dt = require('./globaldata.js').data;
-
 require('dotenv').config();
+
+const app = express();
+const router = express.Router();
+
 app.use(express.json({ limit: '25mb' }));
 app.use(express.urlencoded({ limit: '25mb', extended: true }));
 app.use(cors());
 
-app.get('/', cors(), async (req, res) => {
-    res.send('This is working');
+router.get('/', cors(), async (req, res) => {
+    res.json('This is working');
     
 });
 
-app.get('/home', cors(), async(req, res) => {
+router.get('/home', cors(), async(req, res) => {
     const pathUrl = dt.auth_url(dt.response_type, dt.client_id, dt.redirect_uri,dt.state, dt.scope);
     res.send(pathUrl);
 })
 
-app.post('/image', cors(), async (req, res) => {
+router.post('/image', cors(), async (req, res) => {
     const {img, certType, level} = req.body;
     const textValue = (level) => {
         let text;
@@ -45,7 +48,7 @@ app.post('/image', cors(), async (req, res) => {
 })
 
 
-app.post('/token', cors(), async (req, res) => {
+router.post('/token', cors(), async (req, res) => {
     const {code, state} = req.body;
     const pathQ = dt.path_query(code, dt.client_id, dt.redirect_uri, dt.client_secret);
     const body = '';
@@ -78,21 +81,12 @@ app.post('/token', cors(), async (req, res) => {
         });
     
 })
-const postResp = (response) => app.get('/token', cors(), async (req, res) => {
+const postResp = (response) => router.get('/token', cors(), async (req, res) => {
     let wasPosted;
     response === 201 ? wasPosted = true : wasPosted = false;
     res.send(wasPosted);
 })
 
+app.use('/.netlify/functions/app', router);
 
-const PORT = process.env.PORT || 3001;
-
-
-app.listen(PORT, () => {
-    const url = `http://localhost:${PORT}/`
-    console.log(`Listening on ${url}`);
-})
-
-// hello.listen(PORT, () => {
-//     console.log('to aqui!')
-// })
+module.exports.handler = serverless(app);
