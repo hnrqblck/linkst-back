@@ -12,9 +12,9 @@ const router = express.Router();
 app.use(express.json({ limit: '25mb' }));
 app.use(express.urlencoded({ limit: '25mb', extended: true }));
 app.use(cors());
-app.use(cors({
-    origin: 'https://linke-st.herokuapp.com'
-}));
+// app.use(cors({
+//     origin: 'https://linke-st.herokuapp.com'
+// }));
 
 router.get('/', cors(), async (req, res) => {
     res.json('This is working');
@@ -25,8 +25,8 @@ router.get('/home', cors(), async(req, res) => {
     const pathUrl = dt.auth_url(dt.response_type, dt.client_id, dt.redirect_uri,dt.state, dt.scope);
     res.send(pathUrl);
 })
-router.options('/image', cors());
-router.post('/image', cors(), async (req, res) => {
+// router.options('/image', cors());
+router.post('/image', async (req, res) => {
     const {img, certType, level} = req.body;
     const textValue = (level) => {
         let text;
@@ -50,8 +50,8 @@ router.post('/image', cors(), async (req, res) => {
     global.data = {img, text: textValue(level)};
 })
 
-router.options('/token', cors());
-router.post('/token', cors(), async (req, res) => {
+// router.options('/token', cors());
+router.post('/token', async (req, res) => {
     const {code, state} = req.body;
     const pathQ = dt.path_query(code, dt.client_id, dt.redirect_uri, dt.client_secret);
     const body = '';
