@@ -12,11 +12,7 @@ exports.getLinkedinId = (accessToken) => {
         let headers = {
             'Authorization': 'Bearer ' + accessToken,
             'cache-control': 'no-cache',
-            'X-Restli-Protocol-Version': '2.0.0',
-            'Access-Control-Allow-Credentials': 'true',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET,PUT,POST,PATCH,DELETE,OPTIONS',
-            'Access-Control-Allow-Headers': '*',
+            'X-Restli-Protocol-Version': '2.0.0'
         };
         let body = ''
         _request(method, hostname, path, headers, body).then(r => {
@@ -62,10 +58,6 @@ exports.postShare = (accessToken, ownerId, text, asset) => {
             'cache-control': 'no-cache',
             'X-Restli-Protocol-Version': '2.0.0',
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Credentials': 'true',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET,PUT,POST,PATCH,DELETE,OPTIONS',
-            'Access-Control-Allow-Headers': '*',
             'x-li-format': 'json',
             'Content-Length': Buffer.byteLength(JSON.stringify(body))
         };
@@ -101,10 +93,6 @@ exports.registerImage = (accessToken, ownerId) => {
             'cache-control': 'no-cache',
             'X-Restli-Protocol-Version': '2.0.0',
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Credentials': 'true',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET,PUT,POST,PATCH,DELETE,OPTIONS',
-            'Access-Control-Allow-Headers': '*',
             'x-li-format': 'json',
             'Content-Length': Buffer.byteLength(JSON.stringify(body))
         };
@@ -125,10 +113,6 @@ exports.uploadImage = async (accessToken, bodyCont, pathw) => {
                 headers: {
                     'Authorization': 'Bearer ' + accessToken,
                     'cache-control': 'no-cache',
-                    'Access-Control-Allow-Credentials': 'true',
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'GET,PUT,POST,PATCH,DELETE,OPTIONS',
-                    'Access-Control-Allow-Headers': '*',
                     'X-Restli-Protocol-Version': '2.0.0',
                     'Content-Type': 'application/octet-stream',
                     'x-li-format': 'json',
