@@ -23,7 +23,7 @@ router.get('/home', cors(), async(req, res) => {
     const pathUrl = dt.auth_url(dt.response_type, dt.client_id, dt.redirect_uri,dt.state, dt.scope);
     res.send(pathUrl);
 })
-
+router.options('/image', cors());
 router.post('/image', cors(), async (req, res) => {
     const {img, certType, level} = req.body;
     const textValue = (level) => {
@@ -48,7 +48,7 @@ router.post('/image', cors(), async (req, res) => {
     global.data = {img, text: textValue(level)};
 })
 
-
+router.options('/token', cors());
 router.post('/token', cors(), async (req, res) => {
     const {code, state} = req.body;
     const pathQ = dt.path_query(code, dt.client_id, dt.redirect_uri, dt.client_secret);
