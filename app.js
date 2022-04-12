@@ -7,6 +7,7 @@ const dt = require('./globaldata.js').data;
 require('dotenv').config();
 
 const app = express();
+const port = 3001;
 app.use(cors());
 const router = express.Router();
 
@@ -16,17 +17,17 @@ app.use(express.urlencoded({ limit: '25mb', extended: true }));
 //     origin: 'https://linke-st.herokuapp.com'
 // }));
 
-router.get('/', cors(), async (req, res) => {
+app.get('/', cors(), async (req, res) => {
     res.json('This is working');
     
 });
 
-router.get('/home', cors(), async(req, res) => {
+app.get('/home', cors(), async(req, res) => {
     const pathUrl = dt.auth_url(dt.response_type, dt.client_id, dt.redirect_uri,dt.state, dt.scope);
     res.send(pathUrl);
 })
-// router.options('/image', cors());
-router.post('/image', cors(), async (req, res) => {
+
+app.post('/image', cors(), async (req, res) => {
     const {img, certType, level} = req.body;
     const textValue = (level) => {
         let text;
@@ -50,8 +51,7 @@ router.post('/image', cors(), async (req, res) => {
     global.data = {img, text: textValue(level)};
 })
 
-// router.options('/token', cors());
-router.post('/token', cors(), async (req, res) => {
+app.post('/token', cors(), async (req, res) => {
     const {code, state} = req.body;
     const pathQ = dt.path_query(code, dt.client_id, dt.redirect_uri, dt.client_secret);
     const body = '';
@@ -84,12 +84,12 @@ router.post('/token', cors(), async (req, res) => {
         });
     
 })
-const postResp = (response) => router.get('/token', cors(), async (req, res) => {
+const postResp = (response) => app.get('/token', cors(), async (req, res) => {
     let wasPosted;
     response === 201 ? wasPosted = true : wasPosted = false;
     res.send(wasPosted);
 })
 
-app.use('/app', router);
+app.listen(process.env.PORT || port, () => console.log(`exemple app running on http://localhost:${port}`));
 
 module.exports.handler = serverless(app);
