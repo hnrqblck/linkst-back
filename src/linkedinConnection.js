@@ -11,7 +11,6 @@ exports.getLinkedinId = (accessToken) => {
         let method = 'GET';
         let headers = {
             'Authorization': 'Bearer ' + accessToken,
-            'Access-Control-Allow-Origin': '*',
             'cache-control': 'no-cache',
             'X-Restli-Protocol-Version': '2.0.0'
         };
@@ -59,7 +58,6 @@ exports.postShare = (accessToken, ownerId, text, asset) => {
             'cache-control': 'no-cache',
             'X-Restli-Protocol-Version': '2.0.0',
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
             'x-li-format': 'json',
             'Content-Length': Buffer.byteLength(JSON.stringify(body))
         };
@@ -95,7 +93,6 @@ exports.registerImage = (accessToken, ownerId) => {
             'cache-control': 'no-cache',
             'X-Restli-Protocol-Version': '2.0.0',
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
             'x-li-format': 'json',
             'Content-Length': Buffer.byteLength(JSON.stringify(body))
         };
@@ -116,7 +113,6 @@ exports.uploadImage = async (accessToken, bodyCont, pathw) => {
                 headers: {
                     'Authorization': 'Bearer ' + accessToken,
                     'cache-control': 'no-cache',
-                    'Access-Control-Allow-Origin': '*',
                     'X-Restli-Protocol-Version': '2.0.0',
                     'Content-Type': 'application/octet-stream',
                     'x-li-format': 'json',
