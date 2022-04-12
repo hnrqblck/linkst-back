@@ -12,6 +12,7 @@ const router = express.Router();
 app.use(express.json({ limit: '25mb' }));
 app.use(express.urlencoded({ limit: '25mb', extended: true }));
 app.use(cors());
+router.options('/score', cors());
 
 router.get('/', cors(), async (req, res) => {
     res.json('This is working');
@@ -22,8 +23,8 @@ router.get('/home', cors(), async(req, res) => {
     const pathUrl = dt.auth_url(dt.response_type, dt.client_id, dt.redirect_uri,dt.state, dt.scope);
     res.send(pathUrl);
 })
-
 router.post('/image', cors(), async (req, res) => {
+    res.send('/image is working');
     const {img, certType, level} = req.body;
     const textValue = (level) => {
         let text;
@@ -49,6 +50,7 @@ router.post('/image', cors(), async (req, res) => {
 
 
 router.post('/token', cors(), async (req, res) => {
+    res.send('/token is working');
     const {code, state} = req.body;
     const pathQ = dt.path_query(code, dt.client_id, dt.redirect_uri, dt.client_secret);
     const body = '';
