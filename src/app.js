@@ -90,6 +90,6 @@ const postResp = (response) => router.get('/token', cors(), async (req, res) => 
     res.send(wasPosted);
 })
 
-app.use('/.netlify/functions/app', router);
+app.use('/app', router);
 
 module.exports.handler = serverless(app);
