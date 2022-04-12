@@ -12,7 +12,11 @@ exports.getLinkedinId = (accessToken) => {
         let headers = {
             'Authorization': 'Bearer ' + accessToken,
             'cache-control': 'no-cache',
-            'X-Restli-Protocol-Version': '2.0.0'
+            'X-Restli-Protocol-Version': '2.0.0',
+            'Access-Control-Allow-Credentials': 'true',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,PATCH,DELETE,OPTIONS',
+            'Access-Control-Allow-Headers': '*',
         };
         let body = ''
         _request(method, hostname, path, headers, body).then(r => {
