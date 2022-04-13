@@ -10,7 +10,8 @@ const app = express();
 const port = 3001;
 // app.use(cors());
 app.use(cors({
-    origin: 'https://linke-st.herokuapp.com'
+    origin: true,
+    credentials: true,
 }));
 const router = express.Router();
 
