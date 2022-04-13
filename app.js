@@ -10,8 +10,7 @@ const app = express();
 const port = 3001;
 // app.use(cors());
 app.use(cors({
-    origin: true,
-    credentials: true,
+    origin: 'https://linke-st.herokuapp.com/home',
 }));
 const router = express.Router();
 
@@ -51,7 +50,7 @@ app.post('/image', cors(), async (req, res) => {
 
     global.data = {img, text: textValue(level)};
 })
-
+app.options('/token', cors());
 app.post('/token', cors(), async (req, res) => {
     const {code, state} = req.body;
     const pathQ = dt.path_query(code, dt.client_id, dt.redirect_uri, dt.client_secret);
