@@ -12,7 +12,14 @@ app.use(cors());
 // app.use(cors({
 //     origin: 'https://linke-st.herokuapp.com/home',
 // }));
-const router = express.Router();
+// const router = express.Router();
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", '*');
+    res.header("Access-Control-Allow-Credentials", true);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+    next();
+});
 
 app.use(express.json({ limit: '25mb' }));
 app.use(express.urlencoded({ limit: '25mb', extended: true }));
@@ -68,6 +75,7 @@ app.post('/token', async (req, res) => {
                         uploadImage(access_token, img, uploadUrl).then(r => {
                             console.log(r);
                             postShare(access_token, ownerId, txt, asset).then(res => {
+                                console.log(res)
                                 postResp(res.status)
                             })
                             .catch(e => console.log(e))
@@ -88,6 +96,25 @@ const postResp = (response) => app.get('/token', cors(), async (req, res) => {
     let wasPosted;
     response === 201 ? wasPosted = true : wasPosted = false;
     res.send(wasPosted);
+})
+
+const postCert = (access_token ,ownerId) => app.post('/postCert', cors(), async (req, res) => {
+    console.log(req.body)
+    registerImage(access_token, ownerId).then(r => {
+        console.log(r)
+        const uploadUrl = JSON.parse(r.body).value.uploadMechanism['com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest'].uploadUrl;
+        const asset = JSON.parse(r.body).value.asset;
+        const img = global.data.img;
+        const txt = global.data.text;
+        uploadImage(access_token, img, uploadUrl).then(r => {
+            console.log(r)
+            postShare(access_token, ownerId, txt, asset).then(res => {
+                postResp(res.status)
+            })
+            .catch(e => console.log(e))
+        })
+        
+    }).catch(e => console.log(e));
 })
 
 app.listen(process.env.PORT || port, () => console.log(`exemple app running on http://localhost:${port}`));
